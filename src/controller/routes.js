@@ -3,7 +3,9 @@ const router = express.Router();
 
 router.get('/',(req,res)=>{
 
-    res.send('hola mundo')
+    res.render('index.html',{
+        hola : 'Hola mundo',
+    })
 })
 
 router.get('/get',(req,res)=>{
