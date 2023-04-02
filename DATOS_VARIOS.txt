@@ -1,6 +1,18 @@
 MONGO URI
 mongodb://ukwr08norqr2bauvash5:9emHiK7PB64D7FuXQN70@n1-c2-mongodb-clevercloud-customers.services.clever-cloud.com:27017,n2-c2-mongodb-clevercloud-customers.services.clever-cloud.com:27017/b1tnangfb7mo0hy?replicaSet=rs0
 
+railway
+mongodb://mongo:wSlzHonh4CztYjqyHtjo@containers-us-west-193.railway.app:7747
+
+DEPENDENCIA GITHUB
+AGREGAR
+dependencies{
+   "nombre":"git+https://yoken:x-oauth-basic@github.com/Gitterencio/PROYECTO#RAMA"
+   "dw-data-types":"git+https://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:x-oauth-basic@github.com/Gitterencio/DWDATATYPES_DTO_INTRFC#main"
+}
+ACTUALIZAR
+npm update dw-data-types
+
 --ejecutar --
 railway
 npm run build --> package.json
@@ -19,6 +31,8 @@ nest g co users
 nest g mo users
 nest g s users
 
+MONGO
+nest g mo mongodb-connect
 
 INSTALADO
 
@@ -27,6 +41,8 @@ npm i @nestjs/mongoose mongoose
 
 --socket
 npm i --save @nestjs/websockets @nestjs/platform-socket.io socket.io
+
+
 
 
 MAIN.TS

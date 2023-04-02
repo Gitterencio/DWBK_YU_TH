@@ -30,7 +30,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "socket.io": "^4.6.1",
-    "dw-data-types":"git+https://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:x-oauth-basic@github.com/Gitterencio/DWDATATYPES_DTO_INTRFC#main"
+    "dw-data-types":"git+https://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:x-oauth-basic@github.com/Gitterencio/DWDATATYPES_DTO_INTRFC#main"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
