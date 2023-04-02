@@ -1,0 +1,32 @@
+MONGO URI
+mongodb://ukwr08norqr2bauvash5:9emHiK7PB64D7FuXQN70@n1-c2-mongodb-clevercloud-customers.services.clever-cloud.com:27017,n2-c2-mongodb-clevercloud-customers.services.clever-cloud.com:27017/b1tnangfb7mo0hy?replicaSet=rs0
+
+--ejecutar --
+railway
+npm run build --> package.json
+npm start --> sin run
+
+npm run start:dev --> reinicio automatico sin nodemon
+--nest --help
+
+CREAR COMPONENTE, MODULO, SERVICIO
+nest g co task
+nest g mo task
+nest g s task
+
+INSTALADO
+
+--mogoo db
+npm i @nestjs/mongoose mongoose
+
+--socket
+npm i --save @nestjs/websockets @nestjs/platform-socket.io socket.io
+
+
+MAIN.TS
+CORS, PORT
+  const port = process.env.PORT || 3010;
+  const app = await NestFactory.create(AppModule,{ cors: true });
+  await app.listen(port);
+
+  console.log(`http://localhost:${port}`)
