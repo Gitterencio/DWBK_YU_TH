@@ -1,0 +1,1 @@
+import { CreateProductDTO} from 'dw-data-types/dto/product.dto';
