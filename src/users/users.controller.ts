@@ -1,8 +1,49 @@
-import {  Controller, Get,Put,Post,Delete,Res,Req, HttpStatus, Body,Param,NotFoundException,Query } from '@nestjs/common';
+import {  Controller, Get,Put,Post,Delete,Res,Req, HttpStatus,HttpException, Body,Param,NotFoundException,Query } from '@nestjs/common';
 
 //DTO USERS
-import {CreateProductDTO} from 'dw-data-types/dto/product.dto';
+import {CreateUserDTO,LoginIdUserDTO} from 'dw-data-types/dto/users.dto';
 //INTERFACE USERS
-import {Product} from 'dw-data-types/interfaces/general.interface';
+import {UsersService} from './users.service';
 @Controller('users')
-export class UsersController {}
+export class UsersController {
+    constructor(private usersService:UsersService ){}
+
+
+    @Post('/create')
+    async createPost(@Res() res, @Body() createUserDTO:CreateUserDTO){
+       console.log(createUserDTO,'Usuario')
+       try {
+        const user = await this.usersService.createUser(createUserDTO);
+        return res.status(HttpStatus.OK).json({
+            message:'User Successfully Created',
+            user  })
+       
+        } catch (err) {
+          console.log(err)
+        throw new HttpException({
+            status: HttpStatus.FORBIDDEN,
+            error: err,
+          }, HttpStatus.FORBIDDEN, {
+            cause: err
+          });
+       }
+       
+    }
+
+    @Post('/user')
+    async loginPost(@Res() res, @Body() loginIdUserDTO:LoginIdUserDTO){
+       const user = await this.usersService.getLoginIdUser(loginIdUserDTO);
+
+       if (!user) throw new NotFoundException('User login failed');
+       res.status(HttpStatus.OK).json({user})
+    }
+    @Get('/')
+    async getUsers(@Res() res){
+       const users = await this.usersService.getUsers();
+       res.status(HttpStatus.OK).json({
+        message:'Users ',
+        users
+        })
+    }
+
+}

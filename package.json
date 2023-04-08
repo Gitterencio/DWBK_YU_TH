@@ -26,16 +26,18 @@
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/platform-socket.io": "^9.3.12",
     "@nestjs/websockets": "^9.3.12",
+    "bcrypt": "^5.1.0",
+    "dw-data-types": "git+https://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:x-oauth-basic@github.com/Gitterencio/DWDATATYPES_DTO_INTRFC#main",
     "mongoose": "^7.0.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
-    "socket.io": "^4.6.1",
-    "dw-data-types":"git+https://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:x-oauth-basic@github.com/Gitterencio/DWDATATYPES_DTO_INTRFC#main"
+    "socket.io": "^4.6.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
+    "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.13",
     "@types/jest": "29.2.4",
     "@types/node": "18.11.18",

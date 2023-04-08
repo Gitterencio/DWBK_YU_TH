@@ -52,3 +52,10 @@ CORS, PORT
   await app.listen(port);
 
   console.log(`http://localhost:${port}`)
+
+
+  ENCRIPTAR
+npm i bcrypt
+npm i -D @types/bcrypt
+
+nest g s passwordHashing

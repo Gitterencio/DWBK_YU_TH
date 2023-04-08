@@ -6,9 +6,10 @@ import { UsersModule } from './users/users.module';
 import { MongodbConnectModule } from './mongodb-connect/mongodb-connect.module';
 import { SocketGateway } from './socket/socket.gateway';
 
+
 @Module({
   imports: [UsersModule, MongodbConnectModule],
-  controllers: [AppController, UsersController],
+  controllers: [AppController],
   providers: [AppService, SocketGateway],
 })
 export class AppModule {}
