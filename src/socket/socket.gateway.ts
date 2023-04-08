@@ -2,7 +2,7 @@ import { SubscribeMessage, WebSocketGateway,
   OnGatewayInit,
   OnGatewayConnection,
   OnGatewayDisconnect,
-  WebSocketServer, } from '@nestjs/websockets';
+  WebSocketServer } from '@nestjs/websockets';
 
 import {Server,Socket} from 'socket.io';
 
@@ -14,25 +14,25 @@ import {Server,Socket} from 'socket.io';
   },
 })
 export class SocketGateway implements OnGatewayConnection,OnGatewayDisconnect,OnGatewayInit{
-  @SubscribeMessage('message')
-  handleMessage(client: any, payload: any): string {
-    return 'Hello world!';
-  }
-
   @WebSocketServer() server:Server;
   afterInit(server: Server) {
-    console.log('esto se ejecuta cuando inicia');
+    console.log('SOCKET WEB SERVICE START');
   }
 
   handleConnection(client: Socket, ...args: any[]) {
-    console.log('alguien se conecto al socket')
-    console.log(`${client.handshake.query.room} -> ${client.id}`);  
-    client.join('room')
-    console.log("UN USUARIO SE UNIO A LA SALA " + 'room');
+    console.log(`${client.handshake.query.message} -> ${client.id}`);  
   }
 
   handleDisconnect(client: Socket) {
-    console.log('alguien se FUE')
+    console.log(`USER DISCONNECT  ${client.id}`)
+  }
+
+  @SubscribeMessage('JoinRoomProject')
+  joinRoomProject(client:Socket,idRoom:string)
+  {   
+    client.join(idRoom)
+    console.log("USER JOINED TO THE PROJECT ROOM " + idRoom);
+    this.server.in(idRoom).emit("JoinedRoomProject", "USER JOINED TO THE PROJECT ROOM "+idRoom);
   }
 
   @SubscribeMessage('NewApplicationClient')
