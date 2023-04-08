@@ -57,5 +57,12 @@ CORS, PORT
   ENCRIPTAR
 npm i bcrypt
 npm i -D @types/bcrypt
-
+nest g mo passwordHashing
 nest g s passwordHashing
+
+AUTENTICACION
+nest g module auth
+nest g controller auth
+nest g service auth
+
+npm install --save @nestjs/jwt

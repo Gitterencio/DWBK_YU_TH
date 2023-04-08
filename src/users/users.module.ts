@@ -13,6 +13,10 @@ import {PasswordHashingService} from '../password-hashing/password-hashing.servi
     ])
     ],
   controllers: [UsersController],
-  providers: [UsersService,PasswordHashingService]
+  providers: [UsersService,PasswordHashingService],
+  exports: [UsersService,PasswordHashingService,  
+  MongooseModule.forFeature([
+    {name:'Users',schema: UsersSchema}
+  ])]
 })
 export class UsersModule {}

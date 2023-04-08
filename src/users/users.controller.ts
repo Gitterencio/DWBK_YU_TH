@@ -12,24 +12,16 @@ export class UsersController {
     @Post('/create')
     async createPost(@Res() res, @Body() createUserDTO:CreateUserDTO){
        console.log(createUserDTO,'Usuario')
-       try {
+   
         const user = await this.usersService.createUser(createUserDTO);
         return res.status(HttpStatus.OK).json({
             message:'User Successfully Created',
             user  })
-       
-        } catch (err) {
-          console.log(err)
-        throw new HttpException({
-            status: HttpStatus.FORBIDDEN,
-            error: err,
-          }, HttpStatus.FORBIDDEN, {
-            cause: err
-          });
-       }
+ 
        
     }
 
+    /*TEST*/
     @Post('/user')
     async loginPost(@Res() res, @Body() loginIdUserDTO:LoginIdUserDTO){
        const user = await this.usersService.getLoginIdUser(loginIdUserDTO);
