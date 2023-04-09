@@ -31,10 +31,18 @@ export class SocketGateway implements OnGatewayConnection,OnGatewayDisconnect,On
   joinRoomProject(client:Socket,idRoom:string)
   {   
     client.join(idRoom)
-    console.log("USER JOINED TO THE PROJECT ROOM " + idRoom);
-    this.server.in(idRoom).emit("JoinedRoomProject", "USER JOINED TO THE PROJECT ROOM "+idRoom);
+    console.log(`USER ${client.id} JOINED TO THE PROJECT ROOM: ` + idRoom);
+    this.server.in(idRoom).emit("JoinedRoomProject", `USER ${client.id} JOINED TO THE PROJECT ROOM: ` + idRoom);
   }
 
+  @SubscribeMessage('EditingHTMLProject')
+  editingHTMLProject(client:Socket,data:{idRoom:string,html:string})
+  {   
+    //console.log(`USER ${client.id} EDITING HTML ROOM: ` + data.idRoom);
+    this.server.in(data.idRoom).emit('EditedHTMLProject',data.html);
+  }
+
+  
   @SubscribeMessage('NewApplicationClient')
   handleEvent(client:Socket)
   {   

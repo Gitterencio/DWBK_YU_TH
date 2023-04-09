@@ -7,13 +7,15 @@ import {CreateUserDTO,LoginIdUserDTO,LoginEmailUserDTO} from 'dw-data-types/dto/
 import {Users} from 'dw-data-types/interfaces/users.interface';
 
 import {PasswordHashingService} from '../password-hashing/password-hashing.service';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
     constructor(@InjectModel('Users') private readonly usersModel:Model<Users>,
-    private passwordHashingService:PasswordHashingService){}
+    private passwordHashingService:PasswordHashingService,
+    private jwtService: JwtService){}
 
-    async createUser(createUserDTO: CreateUserDTO):Promise<Users>{
+    async createUser(createUserDTO: CreateUserDTO): Promise<{access_token:string}> {
 
         const hashedPass = await this.passwordHashingService.hashPass(createUserDTO.password);
         createUserDTO = {
@@ -24,7 +26,10 @@ export class UsersService {
         try {
             const user = new this.usersModel(createUserDTO);
             await user.save();
-            return user;
+            const payload = { name:user.name,email: user.email, id: user._id };
+            return {
+                access_token: await this.jwtService.signAsync(payload),
+              };
         } catch (err) {
             throw new HttpException({
                 status: HttpStatus.FORBIDDEN,

@@ -13,10 +13,10 @@ export class UsersController {
     async createPost(@Res() res, @Body() createUserDTO:CreateUserDTO){
        console.log(createUserDTO,'Usuario')
    
-        const user = await this.usersService.createUser(createUserDTO);
+        const {access_token} = await this.usersService.createUser(createUserDTO);
         return res.status(HttpStatus.OK).json({
             message:'User Successfully Created',
-            user  })
+            access_token  })
  
        
     }

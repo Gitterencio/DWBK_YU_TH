@@ -15,10 +15,12 @@ export class AuthController {
 
     @Post('/login')
     async loginPost(@Res() res, @Body() loginEmailUserDTO:LoginEmailUserDTO){
-       const login = await this.authService.signIn(loginEmailUserDTO)
-       if (!login) throw new NotFoundException('User login failed');
+       const {access_token} = await this.authService.signIn(loginEmailUserDTO)
+       if (!access_token) throw new NotFoundException('User login failed');
 
-       res.status(HttpStatus.OK).json({login})
+       res.status(HttpStatus.OK).json({
+        message:'User login success',
+        access_token})
     }
 
 
