@@ -39,7 +39,8 @@ export class SocketGateway implements OnGatewayConnection,OnGatewayDisconnect,On
   editingHTMLProject(client:Socket,data:{idRoom:string,html:string})
   {   
     //console.log(`USER ${client.id} EDITING HTML ROOM: ` + data.idRoom);
-    this.server.in(data.idRoom).emit('EditedHTMLProject',data.html);
+    client.broadcast.to(data.idRoom).emit('EditedHTMLProject',data.html);
+
   }
 
   
