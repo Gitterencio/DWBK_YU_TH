@@ -26,10 +26,30 @@ nest g co task
 nest g mo task
 nest g s task
 
+PLANES
+nest g co planes
+nest g mo planes
+nest g s planes
+
 USUARIOS
 nest g co users
 nest g mo users
 nest g s users
+
+PROYECTOS
+nest g co proyectos
+nest g mo proyectos
+nest g s proyectos
+
+INVITACIONES
+nest g co invitaciones
+nest g mo invitaciones
+nest g s invitaciones
+
+SNIPPETS
+nest g co snippets
+nest g mo snippets
+nest g s snippets
 
 MONGO
 nest g mo mongodb-connect
