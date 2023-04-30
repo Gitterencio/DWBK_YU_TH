@@ -8,7 +8,8 @@ import {CreateProyectoDTO,UpdateProyectoDTO} from 'dw-data-types/dto/proyectos.d
 export class ProyectosController {
     constructor(private proyectosService:ProyectosService ){}
 
-    @Post('/create')
+    //CREATE
+    @Post('/')
     @Bind(Res(),Body())
     async createProyecto(res:Response,createProyectoDTO:CreateProyectoDTO){
        console.log(createProyectoDTO,'Proyecto')
@@ -20,6 +21,7 @@ export class ProyectosController {
             })       
     }
 
+    //GET BY ID
     @Get('/:proyectoId')
     @Bind(Res(),Param('proyectoId'))
     async searchProyecto(res:Response,proyectoId:string){
@@ -32,6 +34,7 @@ export class ProyectosController {
             })       
     }
 
+    //GET BY USER
     @Get('/user/:userId')
     @Bind(Res(),Param('userId'))
     async searchProyectosUser(res:Response,userId:string){
@@ -43,6 +46,7 @@ export class ProyectosController {
             })       
     }
 
+    //GET ALL
     @Get('/')
     @Bind(Res())
     async searchProyectos(res:Response){   
@@ -53,6 +57,7 @@ export class ProyectosController {
             })       
     }
 
+    //DELETE
     @Delete('/:proyectoId')
     @Bind(Res(),Param('proyectoId'))
     async searchAndDeleteProyecto(res:Response,proyectoId:string){
@@ -65,6 +70,7 @@ export class ProyectosController {
             })       
     }
 
+    //UPDATE
     @Put('/')
     @Bind(Res(),Body())
     async searchAndUpdateProyecto(res:Response,updateProyectoDTO:UpdateProyectoDTO){

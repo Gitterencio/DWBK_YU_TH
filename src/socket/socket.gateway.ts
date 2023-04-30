@@ -42,8 +42,6 @@ export class SocketGateway implements OnGatewayConnection,OnGatewayDisconnect,On
     client.broadcast.to(data.idRoom).emit('EditedHTMLProject',data.html);
 
   }
-
-  
   @SubscribeMessage('NewApplicationClient')
   handleEvent(client:Socket)
   {   

@@ -63,8 +63,6 @@ npm i @nestjs/mongoose mongoose
 npm i --save @nestjs/websockets @nestjs/platform-socket.io socket.io
 
 
-
-
 MAIN.TS
 CORS, PORT
   const port = process.env.PORT || 3010;

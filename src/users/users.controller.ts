@@ -9,7 +9,7 @@ export class UsersController {
     constructor(private usersService:UsersService ){}
 
 
-    @Post('/create')
+    @Post('/')
     @Bind(Res(),Body())
     async createPost(res:Response,createUserDTO:CreateUserDTO){
        console.log(createUserDTO,'Usuario')

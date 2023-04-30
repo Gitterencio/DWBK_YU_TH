@@ -5,7 +5,11 @@ const ProyectosSchema = new Schema({
     html_text: {type:String,default:''},
     css_text: {type:String,default:''},
     js_text: {type:String,default:''},
-    user: { type: Types.ObjectId, ref: "users",required:true }
+    user: { type: Types.ObjectId, ref: "users",required:true },
+    createdAt: {
+        type:Date,
+        default:Date.now
+    }
   
 })
 
