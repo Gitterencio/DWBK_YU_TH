@@ -1,5 +1,5 @@
-import {  Controller, Get,Put,Post,Delete,Res,Req, HttpStatus,HttpException, Body,Param,NotFoundException,Query } from '@nestjs/common';
-
+import {  Controller, Get,Put,Post,Delete,Res,Req, HttpStatus,HttpException, Bind,Body,Param,NotFoundException,Query } from '@nestjs/common';
+import { Response } from 'express';
 //DTO USERS
 import {CreateUserDTO,LoginIdUserDTO} from 'dw-data-types/dto/users.dto';
 //INTERFACE USERS
@@ -10,7 +10,8 @@ export class UsersController {
 
 
     @Post('/create')
-    async createPost(@Res() res, @Body() createUserDTO:CreateUserDTO){
+    @Bind(Res(),Body())
+    async createPost(res:Response,createUserDTO:CreateUserDTO){
        console.log(createUserDTO,'Usuario')
    
         const {access_token} = await this.usersService.createUser(createUserDTO);
@@ -21,6 +22,16 @@ export class UsersController {
        
     }
 
+    @Get('/')
+    @Bind(Res())
+    async getUsers(res:Response){
+       const users = await this.usersService.getUsers();
+       res.status(HttpStatus.OK).json({
+        message:'Users',
+        users
+        })
+    }
+
     /*TEST*/
     @Post('/user')
     async loginPost(@Res() res, @Body() loginIdUserDTO:LoginIdUserDTO){
@@ -29,13 +40,6 @@ export class UsersController {
        if (!user) throw new NotFoundException('User login failed');
        res.status(HttpStatus.OK).json({user})
     }
-    @Get('/')
-    async getUsers(@Res() res){
-       const users = await this.usersService.getUsers();
-       res.status(HttpStatus.OK).json({
-        message:'Users ',
-        users
-        })
-    }
+
 
 }

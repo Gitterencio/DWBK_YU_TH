@@ -1,6 +1,7 @@
 import { Controller, Get,Put,Post,Delete,Res,Req, HttpStatus,HttpException, Body,Param,NotFoundException,Query,
-    Request,
-    UseGuards } from '@nestjs/common';
+    UseGuards,Bind } from '@nestjs/common';
+
+import { Response } from 'express'; 
 
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
@@ -14,7 +15,8 @@ export class AuthController {
     constructor(private authService: AuthService) {}
 
     @Post('/login')
-    async loginPost(@Res() res, @Body() loginEmailUserDTO:LoginEmailUserDTO){
+    @Bind(Res(),Body())
+    async loginPost(res:Response, loginEmailUserDTO:LoginEmailUserDTO){
        const {access_token} = await this.authService.signIn(loginEmailUserDTO)
        if (!access_token) throw new NotFoundException('User login failed');
 
@@ -31,7 +33,8 @@ export class AuthController {
 return this.httpClient.get(this.baseURL + 'users/' + userName + '/repos', { 'headers': headers }) */
     @UseGuards(AuthGuard)
     @Get('profile')
-    getProfile(@Request() req) {
+    @Bind(Req())
+    getProfile(req) {
       return req.user;
     }
 }

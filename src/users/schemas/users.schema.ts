@@ -1,6 +1,6 @@
-import {Schema} from 'mongoose';
+import {Schema,Types} from 'mongoose';
 
-export const UsersSchema = new Schema({
+const UsersSchema = new Schema({
     name: {type:String,required:true},
     email: {type:String,required:true,unique: true},
     password: {type:String,required:true},
@@ -13,3 +13,5 @@ export const UsersSchema = new Schema({
         default:Date.now
     }
 })
+
+export const UsersModel = {name:'users',schema: UsersSchema}

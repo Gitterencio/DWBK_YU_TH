@@ -1,5 +1,6 @@
-import { Controller, Get,Post,Body ,HttpStatus,Res} from '@nestjs/common';
+import { Controller, Get,Post,Body ,HttpStatus,Res, Bind} from '@nestjs/common';
 import { AppService } from './app.service';
+import {Request,Response,} from 'express';
 
 @Controller()
 export class AppController {
@@ -11,13 +12,15 @@ export class AppController {
   }
 
   @Get('/get')
-  getAHello(@Res() res) {
+  @Bind(Res())
+  getAHello(res:Response) {
     return res.status(HttpStatus.OK).json({
       mensaje:'Respuesta GET NEST BACKEND'})
   }
 
   @Post('/post')
-  postAHello(@Res() res,@Body() body) {
+  @Bind(Res(), Body())
+  postAHello(res:Response, body) {
     console.log(body)
     return res.status(HttpStatus.OK).json({
       mensaje:body.mensaje +'  Respuesta POST NEST BACKEND'})

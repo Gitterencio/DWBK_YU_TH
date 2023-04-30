@@ -3,20 +3,16 @@ import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 
 import {MongooseModule} from '@nestjs/mongoose';
-import {UsersSchema} from './schemas/users.schema';
+import {UsersModel} from './schemas/users.schema';
 
 import {PasswordHashingService} from '../password-hashing/password-hashing.service';
 @Module({
   imports:[
-    MongooseModule.forFeature([
-      {name:'Users',schema: UsersSchema}
-    ])
+    MongooseModule.forFeature([UsersModel])
     ],
   controllers: [UsersController],
   providers: [UsersService,PasswordHashingService],
   exports: [UsersService,PasswordHashingService,  
-  MongooseModule.forFeature([
-    {name:'Users',schema: UsersSchema}
-  ])]
+  MongooseModule.forFeature([UsersModel])]
 })
 export class UsersModule {}
