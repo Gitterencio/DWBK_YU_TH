@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ProyectosService } from './proyectos.service';
 import { ProyectosController } from './proyectos.controller';
 import {MongooseModule} from '@nestjs/mongoose';
-import { ProyectosModel } from './schemas/proyectos.schema';
+import { ProyectosModel } from './model/proyectos.model';
 
 
 
