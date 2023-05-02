@@ -6,12 +6,15 @@ import {MongooseModule} from '@nestjs/mongoose';
 import {UsersModel} from './model/users.model';
 
 import {PasswordHashingService} from '../password-hashing/password-hashing.service';
+
+//TEST SOCKET CALL
+import { SocketGateway } from 'src/socket/socket.gateway';
 @Module({
   imports:[
     MongooseModule.forFeature([UsersModel])
     ],
   controllers: [UsersController],
-  providers: [UsersService,PasswordHashingService],
+  providers: [UsersService,PasswordHashingService,SocketGateway],
   exports: [UsersService,PasswordHashingService,  
   MongooseModule.forFeature([UsersModel])]
 })

@@ -4,9 +4,13 @@ import { Response } from 'express';
 import {CreateUserDTO,LoginIdUserDTO, UpdateUserDTO} from 'dw-data-types/dto/users.dto';
 //INTERFACE USERS
 import {UsersService} from './users.service';
+
+//TEST SOCKET CALL
+import { SocketGateway } from 'src/socket/socket.gateway';
 @Controller('users')
 export class UsersController {
-    constructor(private usersService:UsersService ){}
+    constructor(private usersService:UsersService,
+        private socketGateway:SocketGateway ){}
 
 
     @Post('/')
@@ -24,6 +28,16 @@ export class UsersController {
     @Get('/')
     @Bind(Res())
     async getUsers(res:Response){
+
+        //TEST SOCKET CALL
+        let romms = this.socketGateway.server.sockets.adapter.rooms
+        console.log('calls',romms)
+        let esta = romms.get('IDASADASDSADASDS')
+        if (esta !== undefined){
+            console.log(esta.size)
+        }
+  
+        this.socketGateway.server.to("IDASADASDSADASDS").emit('EditedHTMLProject',"<h2>HELLO WORD</h2>");
        const users = await this.usersService.getUsers();
        res.status(HttpStatus.OK).json({
         message:'Users',
@@ -36,7 +50,8 @@ export class UsersController {
     @Bind(Res(),Param('userId'))
     async searchUser(res:Response,userId:string){
        console.log(userId,'user')
-   
+        
+       
         const user = await this.usersService.searchOneuser(userId)
         res.status(HttpStatus.OK).json({
             message:'Usser',

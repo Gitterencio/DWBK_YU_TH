@@ -15,6 +15,7 @@ export class ProyectosController {
        console.log(createProyectoDTO,'Proyecto')
    
         const proyecto = await this.proyectosService.createProyecto(createProyectoDTO);
+        if (!proyecto) throw new NotFoundException('User login failed');
         res.status(HttpStatus.OK).json({
             message:'Proyecto',
             proyecto
