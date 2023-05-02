@@ -32,6 +32,7 @@ export class SocketGateway implements OnGatewayConnection,OnGatewayDisconnect,On
   {   
     client.join(idRoom)
     console.log(`USER ${client.id} JOINED TO THE PROJECT ROOM: ` + idRoom);
+    console.log(this.server.sockets.adapter.rooms)
     this.server.in(idRoom).emit("JoinedRoomProject", `USER ${client.id} JOINED TO THE PROJECT ROOM: ` + idRoom);
   }
 
