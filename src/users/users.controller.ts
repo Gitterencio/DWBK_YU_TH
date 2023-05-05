@@ -13,12 +13,13 @@ export class UsersController {
         private socketGateway:SocketGateway ){}
 
 
-    @Post('/')
+    @Post('')
     @Bind(Res(),Body())
     async createPost(res:Response,createUserDTO:CreateUserDTO){
        console.log(createUserDTO,'Usuario')
    
         const {access_token} = await this.usersService.createUser(createUserDTO);
+        if (!access_token) throw new NotFoundException('User singup failed');
         return res.status(HttpStatus.OK).json({
             message:'User Successfully Created',
             access_token  })

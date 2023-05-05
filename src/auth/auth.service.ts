@@ -6,7 +6,7 @@ import {LoginEmailUserDTO} from 'dw-data-types/dto/users.dto';
 import {PasswordHashingService} from '../password-hashing/password-hashing.service';
 
 import { JwtService } from '@nestjs/jwt';
-
+import { UserPayload } from './auth.constans';
 @Injectable()
 export class AuthService {
     constructor(private usersService: UsersService,
@@ -20,7 +20,7 @@ export class AuthService {
           throw new UnauthorizedException();
         }
         /*implementar token*/
-        const payload = { name:user.name,email: user.email, id: user._id };
+        const payload:UserPayload = { name:user.name,email: user.email, id: user._id };
         return {
           access_token: await this.jwtService.signAsync(payload),
         };

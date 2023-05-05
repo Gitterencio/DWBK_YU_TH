@@ -1,28 +1,39 @@
-import { Controller,Get,Post,Delete,Put,Res,HttpStatus,Bind,Body,Param,NotFoundException } from '@nestjs/common';
+import { Controller,Get,Post,Delete,Put,Res,Req,HttpStatus,Bind,Body,Param,NotFoundException,
+UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 
 import { ProyectosService } from './proyectos.service';
 import {CreateProyectoDTO,UpdateProyectoDTO} from 'dw-data-types/dto/proyectos.dto'
 
+import { AuthGuard } from 'src/auth/auth.guard';
+import { UserPayload } from 'src/auth/auth.constans';
 @Controller('proyectos')
 export class ProyectosController {
     constructor(private proyectosService:ProyectosService ){}
 
     //CREATE
-    @Post('/')
-    @Bind(Res(),Body())
-    async createProyecto(res:Response,createProyectoDTO:CreateProyectoDTO){
-       console.log(createProyectoDTO,'Proyecto')
-   
+    @UseGuards(AuthGuard)
+    @Post('')
+    @Bind(Req(),Res(),Body())
+    async createProyecto(req:any,res:Response,body:{name:string}){
+       
+       let userPayload:UserPayload = req.user;
+       let createProyectoDTO:CreateProyectoDTO={
+             name:body.name,
+             user: userPayload.id
+       }
+       
+       console.log(userPayload,'ususariooooo')
         const proyecto = await this.proyectosService.createProyecto(createProyectoDTO);
-        if (!proyecto) throw new NotFoundException('User login failed');
+        if (!proyecto) throw new NotFoundException('Proyecto failed');
         res.status(HttpStatus.OK).json({
-            message:'Proyecto',
+            message:'Proyecto Creado',
             proyecto
             })       
     }
 
     //GET BY ID
+    @UseGuards(AuthGuard)
     @Get('/:proyectoId')
     @Bind(Res(),Param('proyectoId'))
     async searchProyecto(res:Response,proyectoId:string){
@@ -36,11 +47,12 @@ export class ProyectosController {
     }
 
     //GET BY USER
-    @Get('/user/:userId')
-    @Bind(Res(),Param('userId'))
-    async searchProyectosUser(res:Response,userId:string){
-       console.log(userId,'User')
-        const proyectos = await this.proyectosService.searchProyectosUser(userId);
+    @UseGuards(AuthGuard)
+    @Get('user/proyectos')
+    @Bind(Req(),Res())
+    async searchProyectosUser(req:any,res:Response){
+        const userPayload:UserPayload = req.user;
+        const proyectos = await this.proyectosService.searchProyectosUser(userPayload.id);
         res.status(HttpStatus.OK).json({
             message:'Proyectos',
             proyectos
