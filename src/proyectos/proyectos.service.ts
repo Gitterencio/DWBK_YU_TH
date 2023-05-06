@@ -38,7 +38,7 @@ export class ProyectosService {
 
    //UPDATE
    async searchAndUpdateProyecto(updateProyectoDTO: UpdateProyectoDTO): Promise<Proyectos> {
-    const proyecto = this.proyectosModel.findByIdAndUpdate(updateProyectoDTO.id,updateProyectoDTO,{new:true});
+    const proyecto = this.proyectosModel.findByIdAndUpdate(updateProyectoDTO._id,updateProyectoDTO,{new:true});
     return proyecto   
     }
 

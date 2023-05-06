@@ -84,14 +84,15 @@ export class ProyectosController {
     }
 
     //UPDATE
-    @Put('/')
-    @Bind(Res(),Body())
-    async searchAndUpdateProyecto(res:Response,updateProyectoDTO:UpdateProyectoDTO){
+    @UseGuards(AuthGuard)
+    @Put()
+    @Bind(Req(),Res(),Body())
+    async searchAndUpdateProyecto(req:any,res:Response,updateProyectoDTO:UpdateProyectoDTO){
        console.log(updateProyectoDTO,'Proyecto')
    
         const proyecto = await this.proyectosService.searchAndUpdateProyecto(updateProyectoDTO)
         res.status(HttpStatus.OK).json({
-            message:'Proyecto',
+            message:'Guardado',
             proyecto
             })       
     }
