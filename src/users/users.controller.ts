@@ -52,7 +52,6 @@ export class UsersController {
     async searchUser(res:Response,userId:string){
        console.log(userId,'user')
         
-       
         const user = await this.usersService.searchOneuser(userId)
         res.status(HttpStatus.OK).json({
             message:'Usser',
@@ -66,13 +65,25 @@ export class UsersController {
     async searchNameUser(res:Response,userName:string){
        console.log(userName,'user')
    
-        const user = await this.usersService.getNameUser(userName)
+        const users = await this.usersService.getNameUser(userName)
+        res.status(HttpStatus.OK).json({
+            message:'Usser',
+            users
+            })       
+    }
+
+    //GET BY ID
+    @Get('/:email')
+    @Bind(Res(),Param('email'))
+    async searchEmailUser(res:Response,email:string){
+       console.log(email,'user')
+   
+        const user = await this.usersService.getEmailUser(email)
         res.status(HttpStatus.OK).json({
             message:'Usser',
             user
             })       
     }
-
      //DELETE
      @Delete('/:userId')
      @Bind(Res(),Param('userId'))

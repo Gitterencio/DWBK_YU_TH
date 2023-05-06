@@ -1,28 +1,36 @@
-import { Controller,Get,Post,Delete,Put,Res,HttpStatus,Bind,Body,Param,NotFoundException } from '@nestjs/common';
+import { Controller,Get,Post,Delete,Put,Res,Req,HttpStatus,Bind,Body,Param,NotFoundException,UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 
 import { InvitacionesService } from './invitaciones.service';
 import {CreateInvitacionDTO,UpdateEstadoInvitacionDTO} from 'dw-data-types/dto/invitaciones.dto';
+
+import { AuthGuard } from 'src/auth/auth.guard';
+import { UserPayload } from 'src/auth/auth.constans';
 @Controller('invitaciones')
 export class InvitacionesController {
 
     constructor(private invitacionesService:InvitacionesService ){}
     //CREATE
-    @Post('/')
-    @Bind(Res(),Body())
-    async createInvitacion(res:Response,createInvitacionDTO:CreateInvitacionDTO){
+    @UseGuards(AuthGuard)
+    @Post('')
+    @Bind(Req(),Res(),Body())
+    async createInvitacion(req:any,res:Response,createInvitacionDTO:CreateInvitacionDTO){
        console.log(createInvitacionDTO,'Invitacion')
-   
+       let userPayload:UserPayload = req.user;
+        createInvitacionDTO.user = userPayload.id
+
         const invitacion = await this.invitacionesService.createInvitacion(createInvitacionDTO)
+        if (!invitacion) throw new NotFoundException('Invitacion failed');
         res.status(HttpStatus.OK).json({
             message:'Invitacion',
             invitacion
             })       
     }
     //UPDATE ESTADO
-    @Put('/')
-    @Bind(Res(),Body())
-    async searchAndUpdateEstadoInvitacion(res:Response,updateEstadoInvitacionDTO:UpdateEstadoInvitacionDTO){
+    @UseGuards(AuthGuard)
+    @Put('')
+    @Bind(Req(),Res(),Body())
+    async searchAndUpdateEstadoInvitacion(req:any,res:Response,updateEstadoInvitacionDTO:UpdateEstadoInvitacionDTO){
        console.log(updateEstadoInvitacionDTO,'Proyecto')
         const invitacion = await this.invitacionesService.updateEstadoInvitacion(updateEstadoInvitacionDTO);
         res.status(HttpStatus.OK).json({
@@ -32,11 +40,12 @@ export class InvitacionesController {
     }
 
     //GET BY CRE USER
-    @Get('/user/:userId')
-    @Bind(Res(),Param('userId'))
-    async searchInvitacionesUser(res:Response,userId:string){
-       console.log(userId,'User')
-        const invitaciones = await this.invitacionesService.searchInvitacionesCreador(userId);
+    @UseGuards(AuthGuard)
+    @Get('/user/invitaciones')
+    @Bind(Req(),Res())
+    async searchInvitacionesUser(req:any,res:Response){
+        const userPayload:UserPayload = req.user;
+        const invitaciones = await this.invitacionesService.searchInvitacionesCreador(userPayload.id);
         res.status(HttpStatus.OK).json({
             message:'Invitaciones',
             invitaciones
@@ -44,11 +53,12 @@ export class InvitacionesController {
     }
 
     //GET BY INV USER
-    @Get('/invitado/:invitadoId')
-    @Bind(Res(),Param('invitadoId'))
-    async searchInvitacionesInvitado(res:Response,invitadoId:string){
-       console.log(invitadoId,'Invitados')
-        const invitaciones = await this.invitacionesService.searchInvitacionesInvitado(invitadoId);
+    @UseGuards(AuthGuard)
+    @Get('/invitado/invitaciones')
+    @Bind(Req(),Res())
+    async searchInvitacionesInvitado(req:any,res:Response){
+        const userPayload:UserPayload = req.user;
+        const invitaciones = await this.invitacionesService.searchInvitacionesInvitado(userPayload.email);
         res.status(HttpStatus.OK).json({
             message:'Invitaciones',
             invitaciones

@@ -5,12 +5,17 @@ import {InjectModel} from '@nestjs/mongoose';
 
 import {Invitaciones} from 'dw-data-types/interfaces/invitaciones.interface';
 import {CreateInvitacionDTO,UpdateEstadoInvitacionDTO} from 'dw-data-types/dto/invitaciones.dto';
+
+import { UsersService } from 'src/users/users.service';
 @Injectable()
 export class InvitacionesService {
-    constructor(@InjectModel('invitaciones') private readonly invitacionesModel:Model<Invitaciones>){}
+    constructor(@InjectModel('invitaciones') private readonly invitacionesModel:Model<Invitaciones>,
+    private usersService: UsersService,){}
 
     //CREATE
     async createInvitacion(createInvitacionDTO: CreateInvitacionDTO): Promise<Invitaciones> {
+        const user = await this.usersService.getEmailUser(createInvitacionDTO.invitado);
+        if (!user){ return}
         const inivitacion = new this.invitacionesModel(createInvitacionDTO);
         await inivitacion.save()
         return inivitacion   
@@ -28,8 +33,8 @@ export class InvitacionesService {
         }
 
     //GET BY INV USER
-    async searchInvitacionesInvitado(invitadoId:string): Promise<Invitaciones[]> {
-        const invitaciones = this.invitacionesModel.find({invitado:invitadoId});
+    async searchInvitacionesInvitado(invitadoEmail:string): Promise<Invitaciones[]> {
+        const invitaciones = this.invitacionesModel.find({invitado:invitadoEmail});
         return invitaciones   
         }
 
