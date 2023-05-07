@@ -2,7 +2,7 @@ import {Schema,Types} from 'mongoose';
 
 const ProyectosSchema = new Schema({
     name: {type:String,required:true},
-    descripcion: {type:String,required:true},
+    descripcion: {type:String},
     html_text: {type:String,default:''},
     css_text: {type:String,default:''},
     js_text: {type:String,default:''},

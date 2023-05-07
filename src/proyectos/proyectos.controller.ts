@@ -15,16 +15,13 @@ export class ProyectosController {
     @UseGuards(AuthGuard)
     @Post('')
     @Bind(Req(),Res(),Body())
-    async createProyecto(req:any,res:Response,body:{name:string}){
+    async createProyecto(req:any,res:Response,body:CreateProyectoDTO){
        
        let userPayload:UserPayload = req.user;
-       let createProyectoDTO:CreateProyectoDTO={
-             name:body.name,
-             user: userPayload.id
-       }
+       body.user = userPayload.id
        
        console.log(userPayload,'ususariooooo')
-        const proyecto = await this.proyectosService.createProyecto(createProyectoDTO);
+        const proyecto = await this.proyectosService.createProyecto(body);
         if (!proyecto) throw new NotFoundException('Proyecto failed');
         res.status(HttpStatus.OK).json({
             message:'Proyecto Creado',

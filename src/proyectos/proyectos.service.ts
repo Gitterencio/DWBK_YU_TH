@@ -22,7 +22,7 @@ export class ProyectosService {
     }
    //GET BY USER
    async searchProyectosUser(userId:string): Promise<Proyectos[]> {
-    const proyectos = this.proyectosModel.find({user:userId},{name:1,});
+    const proyectos = this.proyectosModel.find({user:userId},{name:1,descripcion:1});
     return proyectos   
     }
    //GET ALL
